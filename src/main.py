@@ -1,50 +1,44 @@
 import time
 
-from config import (
-    PI_NAME,
-    MOISTURE_PIN,
-    MOISTURE_DRY_THRESHOLD,
-    MOISTURE_DRY_VALUE,
-    MOISTURE_WET_VALUE,
-    PUMP_PIN,
-    PUMP_DOSE_SECONDS,
-    READ_INTERVAL_SECONDS,
-)
+from config import PI_NAME, MOISTURE_PIN, PUMP_PIN, READ_INTERVAL_SECONDS
 import wifi
 import firebase_client
 import moisture
 import pump
+import remote_config
 
 
 def cycle():
+    cfg = remote_config.load()
+
     value = moisture.read(MOISTURE_PIN)
-    percent = moisture.to_percent(value, MOISTURE_DRY_VALUE, MOISTURE_WET_VALUE)
+    percent = moisture.to_percent(
+        value, cfg["moisture_dry_value"], cfg["moisture_wet_value"]
+    )
     print("moisture: {} ({}%)".format(value, percent))
 
     wifi.ensure_connected()
     ts = firebase_client.now_iso()
     firebase_client.push_reading(PI_NAME, ts, value, percent)
 
-    remote = firebase_client.fetch_config(PI_NAME) or {}
-    dry_threshold = remote.get("dry_threshold", MOISTURE_DRY_THRESHOLD)
-    dose_seconds = remote.get("pump_dose_seconds", PUMP_DOSE_SECONDS)
-    print("config: dry_threshold={} dose={}s".format(dry_threshold, dose_seconds))
-
-    if value > dry_threshold:
-        print("dry — running pump for", dose_seconds, "s")
-        pump.dose(PUMP_PIN, dose_seconds)
+    if value > cfg["dry_threshold"]:
+        print("dry — running pump for {}s".format(cfg["pump_dose_seconds"]))
+        pump.dose(PUMP_PIN, cfg["pump_dose_seconds"])
         firebase_client.push_event(
-            PI_NAME, ts, {"event": "watered", "duration_s": dose_seconds}
+            PI_NAME, ts, {"event": "watered", "duration_s": cfg["pump_dose_seconds"]}
         )
+
+    return cfg["read_interval_seconds"]
 
 
 def main():
+    interval = READ_INTERVAL_SECONDS  # use local default for the very first sleep
     while True:
         try:
-            cycle()
+            interval = cycle()
         except Exception as e:
             print("cycle error:", e)
-        time.sleep(READ_INTERVAL_SECONDS)
+        time.sleep(interval)
 
 
 main()
