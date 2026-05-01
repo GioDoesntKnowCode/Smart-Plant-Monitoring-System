@@ -1,12 +1,15 @@
-"""Calibration mode: prints moisture readings every 5 s. No WiFi, no Firebase, no pump.
+"""Calibration mode: prints moisture + light readings every 500ms. No WiFi, no Firebase, no pump.
 
 Run this in Thonny (open file, press F5). Stop with Ctrl+C.
 """
 import time
 import moisture
-from config import MOISTURE_PIN
+from config import MOISTURE_PIN, MOISTURE_POWER_PIN, LIGHT_PIN, LIGHT_POWER_PIN, MOISTURE_DRY_VALUE, MOISTURE_WET_VALUE
 
 while True:
-    value = moisture.read(MOISTURE_PIN)
-    print("moisture:", value)
-    time.sleep(5)
+    m_raw = moisture.read(MOISTURE_PIN, MOISTURE_POWER_PIN)
+    m_pct = moisture.to_percent(m_raw, MOISTURE_DRY_VALUE, MOISTURE_WET_VALUE)
+    l_raw = moisture.read(LIGHT_PIN, LIGHT_POWER_PIN)
+
+    print("moisture: {} ({}%)  |  light: {}".format(m_raw, m_pct, l_raw))
+    time.sleep_ms(500)

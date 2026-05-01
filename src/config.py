@@ -2,9 +2,11 @@
 PI_NAME = "pico-plant-tomato-1"
 
 # GPIO numbers (not physical pins).
-MOISTURE_PIN = 27  # GP27 / ADC1  (soldered)
-LIGHT_PIN = 26     # GP26 / ADC0  (soldered)
-PUMP_PIN = 15      # GP15
+MOISTURE_PIN = 27        # GP27 / ADC1  (soldered) — signal
+MOISTURE_POWER_PIN = 22  # GP22 / pin 29 — powers moisture sensor during reads only
+LIGHT_PIN = 26           # GP26 / ADC0  (soldered) — signal
+LIGHT_POWER_PIN = 28     # GP28 / pin 34 — powers light sensor during reads only
+PUMP_PIN = 15            # GP15
 
 # Calibrated sensor extremes (from your bench tests).
 # 0% = fully dry (air reading), 100% = fully wet (submerged in water).
