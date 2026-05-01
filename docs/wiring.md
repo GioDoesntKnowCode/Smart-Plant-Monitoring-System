@@ -14,9 +14,9 @@
              GP5 →  7│          │34
               GND   8│          │33  GND ─────────────────── Light sensor GND
              GP6 →  9│          │32  GP27                    (spare)
-             GP7 → 10│          │31  GP26                    (spare)
+             GP7 → 10│          │31  GP26 / ADC0 ──────────── Light sensor SIG
              GP8 → 11│          │30  RUN
-             GP9 → 12│          │29  GP22 ─────────────────── Light sensor SIG
+             GP9 → 12│          │29  GP22                    (spare)
               GND  13│          │28  GP28 / ADC2 ──────────── Moisture sensor SIG
             GP10 → 14│          │27  GP21
             GP11 → 15│          │26  GP20
@@ -47,7 +47,7 @@
 |---|---|---|
 | VCC | Pin 36 | 3V3(OUT) |
 | GND | Pin 33 | GND |
-| AO | Pin 29 | GP22 |
+| AO | Pin 31 | GP26 / ADC0 |
 
 ---
 

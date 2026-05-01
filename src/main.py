@@ -8,6 +8,7 @@ import remote_config
 
 
 def cycle():
+    wifi.ensure_connected()
     cfg = remote_config.load()
 
     value = moisture.read(MOISTURE_PIN)
@@ -17,7 +18,6 @@ def cycle():
     l_raw = moisture.read(LIGHT_PIN)
     print("moisture: {} ({}%)  |  light: {}".format(value, percent, l_raw))
 
-    wifi.ensure_connected()
     ts = firebase_client.now_iso()
     firebase_client.push_reading(PI_NAME, ts, value, percent, l_raw)
 
