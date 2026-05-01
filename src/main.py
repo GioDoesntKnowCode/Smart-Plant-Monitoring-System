@@ -1,6 +1,6 @@
 import time
 
-from config import PI_NAME, MOISTURE_PIN, MOISTURE_POWER_PIN, LIGHT_PIN, LIGHT_POWER_PIN, READ_INTERVAL_SECONDS
+from config import PI_NAME, MOISTURE_PIN, LIGHT_PIN, READ_INTERVAL_SECONDS
 import wifi
 import firebase_client
 import moisture
@@ -10,11 +10,11 @@ import remote_config
 def cycle():
     cfg = remote_config.load()
 
-    value = moisture.read(MOISTURE_PIN, MOISTURE_POWER_PIN)
+    value = moisture.read(MOISTURE_PIN)
     percent = moisture.to_percent(
         value, cfg["moisture_dry_value"], cfg["moisture_wet_value"]
     )
-    l_raw = moisture.read(LIGHT_PIN, LIGHT_POWER_PIN)
+    l_raw = moisture.read(LIGHT_PIN)
     print("moisture: {} ({}%)  |  light: {}".format(value, percent, l_raw))
 
     wifi.ensure_connected()
