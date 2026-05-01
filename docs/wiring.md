@@ -9,15 +9,15 @@
              GP1 →  2│          │39  VSYS
               GND   3│          │38  GND ─────────────────── Moisture sensor GND
              GP2 →  4│          │37  3V3 EN
-             GP3 →  5│          │36  3V3(OUT) ────┬────────── Moisture sensor VCC
-             GP4 →  6│          │35               └────────── Light sensor VCC
-             GP5 →  7│          │34
+             GP3 →  5│          │36  3V3(OUT)               (free)
+             GP4 →  6│          │35
+             GP5 →  7│          │34  GP28 ─────────────────── Moisture sensor VCC  ⚡
               GND   8│          │33  GND ─────────────────── Light sensor GND
-             GP6 →  9│          │32  GP27                    (spare)
+             GP6 →  9│          │32  GP27 / ADC1 ──────────── Moisture sensor SIG
              GP7 → 10│          │31  GP26 / ADC0 ──────────── Light sensor SIG
              GP8 → 11│          │30  RUN
-             GP9 → 12│          │29  GP22                    (spare)
-              GND  13│          │28  GP28 / ADC2 ──────────── Moisture sensor SIG
+             GP9 → 12│          │29  GP22 ─────────────────── Light sensor VCC  ⚡
+              GND  13│          │28  GND                    (spare)
             GP10 → 14│          │27  GP21
             GP11 → 15│          │26  GP20
             GP12 → 16│          │25  GP19
@@ -27,27 +27,29 @@
             GP15 → 20│          │21  GP16
                      └──────────┘
 
+⚡ = GPIO-switched power. Sensor only powered during a read, then off.
+    Prevents heat build-up and probe corrosion on the resistive moisture sensor.
 ```
 
 ## Connections per device
 
 ### Soil moisture sensor (Grove)
 
-| Wire | Pico pin | Label |
-|---|---|---|
-| VCC (red) | Pin 36 | 3V3(OUT) |
-| GND (black) | Pin 38 | GND |
-| SIG (yellow) | Pin 34 | GP28 / ADC2 |
+| Wire | Pico pin | Label | Note |
+|---|---|---|---|
+| VCC (red) | Pin 34 | GP28 | GPIO-switched ⚡ |
+| GND (black) | Pin 38 | GND | |
+| SIG (yellow) | Pin 32 | GP27 / ADC1 | |
 
 ---
 
 ### Ambient light sensor (SENS1016)
 
-| Wire | Pico pin | Label |
-|---|---|---|
-| VCC | Pin 36 | 3V3(OUT) |
-| GND | Pin 33 | GND |
-| AO | Pin 31 | GP26 / ADC0 |
+| Wire | Pico pin | Label | Note |
+|---|---|---|---|
+| VCC | Pin 29 | GP22 | GPIO-switched ⚡ |
+| GND | Pin 33 | GND | |
+| AO | Pin 31 | GP26 / ADC0 | |
 
 ---
 

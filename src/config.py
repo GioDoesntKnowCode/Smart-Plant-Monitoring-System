@@ -1,9 +1,13 @@
 # Identifies this device in Firebase. Use a unique name per Pico.
 PI_NAME = "pico-plant-tomato-1"
 
-# GPIO numbers (not physical pins).
-MOISTURE_PIN = 28  # GP28 / ADC2 — signal
-LIGHT_PIN = 26     # GP26 / ADC0 — signal (must be GP26/27/28 for ADC)
+# Signal pins (must be GP26/27/28 — only ADC-capable pins on Pico).
+MOISTURE_PIN = 27  # GP27 / ADC1 — moisture sensor SIG
+LIGHT_PIN = 26     # GP26 / ADC0 — light sensor SIG
+
+# Power pins (GPIO-switched — sensor only powered during a read).
+MOISTURE_POWER_PIN = 28  # GP28 — moisture sensor VCC
+LIGHT_POWER_PIN = 22     # GP22 — light sensor VCC
 
 # Calibrated sensor extremes (from your bench tests).
 # 0% = fully dry (air reading), 100% = fully wet (submerged in water).

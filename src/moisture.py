@@ -1,12 +1,19 @@
 from machine import ADC, Pin
+import time
 
 
-def read(sig_pin, samples=8):
-    """Average ADC samples to smooth jitter. Returns 0..65535."""
+def read(sig_pin, power_pin, samples=8):
+    """Power the sensor, wait for it to settle, take averaged ADC reading, power off."""
+    pwr = Pin(power_pin, Pin.OUT)
+    pwr.value(1)
+    time.sleep_ms(50)  # settle time before reading
+
     adc = ADC(Pin(sig_pin))
     total = 0
     for _ in range(samples):
         total += adc.read_u16()
+
+    pwr.value(0)
     return total // samples
 
 
