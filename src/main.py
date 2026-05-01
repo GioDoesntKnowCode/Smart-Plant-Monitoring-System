@@ -1,4 +1,4 @@
-import time
+import machine
 
 from config import PI_NAME, MOISTURE_PIN, LIGHT_PIN, READ_INTERVAL_SECONDS
 import wifi
@@ -25,13 +25,14 @@ def cycle():
 
 
 def main():
-    interval = READ_INTERVAL_SECONDS
-    while True:
-        try:
-            interval = cycle()
-        except Exception as e:
-            print("cycle error:", e)
-        time.sleep(interval)
+    interval = READ_INTERVAL_SECONDS  # fallback if cycle fails
+    try:
+        interval = cycle()
+    except Exception as e:
+        print("cycle error:", e)
+
+    print("deep sleeping for {}s...".format(interval))
+    machine.deepsleep(interval * 1000)
 
 
 main()
