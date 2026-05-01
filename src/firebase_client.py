@@ -43,12 +43,12 @@ def _get(path):
         r.close()
 
 
-def push_reading(pi_name, ts, value, percent):
-    _put("readings/{}/{}".format(pi_name, ts), {"moisture": value, "moisture_pct": percent})
-
-
-def push_event(pi_name, ts, payload):
-    _put("readings/{}/events/{}".format(pi_name, ts), payload)
+def push_reading(pi_name, ts, moisture_raw, moisture_pct, light_raw):
+    _put("readings/{}/{}".format(pi_name, ts), {
+        "moisture":     moisture_raw,
+        "moisture_pct": moisture_pct,
+        "light":        light_raw,
+    })
 
 
 def fetch_config(pi_name):

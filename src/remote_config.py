@@ -9,7 +9,6 @@ Firebase structure:
     moisture_dry_value:      65535
     moisture_wet_value:      34954
     dry_threshold:           57000
-    pump_dose_seconds:       2
     read_interval_seconds:   14400
 
 To add a new config key in future:
@@ -18,7 +17,7 @@ To add a new config key in future:
   3. Set the value in Firebase under config/<PI_NAME>/.
      The Pico picks it up on the next cycle — no code re-upload needed.
 
-Pin assignments (MOISTURE_PIN, LIGHT_PIN, PUMP_PIN) are intentionally
+Pin assignments (MOISTURE_PIN, LIGHT_PIN etc.) are intentionally
 kept local-only — they're hardware and can't change remotely.
 """
 
@@ -28,7 +27,6 @@ from config import (
     MOISTURE_DRY_VALUE,
     MOISTURE_WET_VALUE,
     MOISTURE_DRY_THRESHOLD,
-    PUMP_DOSE_SECONDS,
     READ_INTERVAL_SECONDS,
 )
 
@@ -36,7 +34,6 @@ DEFAULTS = {
     "moisture_dry_value":    MOISTURE_DRY_VALUE,
     "moisture_wet_value":    MOISTURE_WET_VALUE,
     "dry_threshold":         MOISTURE_DRY_THRESHOLD,
-    "pump_dose_seconds":     PUMP_DOSE_SECONDS,
     "read_interval_seconds": READ_INTERVAL_SECONDS,
 }
 
