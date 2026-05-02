@@ -31,13 +31,17 @@ from config import (
     MOISTURE_WET_VALUE,
     MOISTURE_DRY_THRESHOLD,
     SENSOR_INTERVAL,
+    SAMPLE_DURATION_S,
+    SAMPLE_INTERVAL_MS,
 )
 
 DEFAULTS = {
-    "moisture_dry_value": MOISTURE_DRY_VALUE,
-    "moisture_wet_value": MOISTURE_WET_VALUE,
-    "dry_threshold":      MOISTURE_DRY_THRESHOLD,
-    "sensor_interval":    SENSOR_INTERVAL,
+    "moisture_dry_value":  MOISTURE_DRY_VALUE,
+    "moisture_wet_value":  MOISTURE_WET_VALUE,
+    "dry_threshold":       MOISTURE_DRY_THRESHOLD,
+    "sensor_interval":     SENSOR_INTERVAL,
+    "sample_duration_s":   SAMPLE_DURATION_S,
+    "sample_interval_ms":  SAMPLE_INTERVAL_MS,
 }
 
 

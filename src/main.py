@@ -11,19 +11,19 @@ import moisture
 import remote_config
 
 
-def collect_readings():
+def collect_readings(duration_s, interval_ms):
     """
-    Sample both sensors every SAMPLE_INTERVAL_MS for SAMPLE_DURATION_S seconds.
+    Sample both sensors every interval_ms for duration_s seconds.
     Returns (moisture_avg, light_avg).
     """
     m_samples = []
     l_samples = []
-    deadline = time.ticks_add(time.ticks_ms(), SAMPLE_DURATION_S * 1000)
+    deadline = time.ticks_add(time.ticks_ms(), duration_s * 1000)
 
     while time.ticks_diff(deadline, time.ticks_ms()) > 0:
         m_samples.append(moisture.read(MOISTURE_PIN))
         l_samples.append(moisture.read(LIGHT_PIN))
-        time.sleep_ms(SAMPLE_INTERVAL_MS)
+        time.sleep_ms(interval_ms)
 
     m_avg = sum(m_samples) // len(m_samples)
     l_avg = sum(l_samples) // len(l_samples)
@@ -36,8 +36,10 @@ def cycle():
     wifi.ensure_connected()
     cfg = remote_config.load()
 
-    print("sampling for {}s...".format(SAMPLE_DURATION_S))
-    m_avg, l_avg = collect_readings()
+    sample_dur = cfg["sample_duration_s"]
+    sample_int = cfg["sample_interval_ms"]
+    print("sampling for {}s every {}ms...".format(sample_dur, sample_int))
+    m_avg, l_avg = collect_readings(sample_dur, sample_int)
 
     m_pct = moisture.to_percent(
         m_avg, cfg["moisture_dry_value"], cfg["moisture_wet_value"]
