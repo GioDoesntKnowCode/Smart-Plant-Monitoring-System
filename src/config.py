@@ -13,8 +13,13 @@ MOISTURE_DRY_VALUE = 65535
 MOISTURE_WET_VALUE = 34954
 
 # Grove resistive sensor: higher = drier, lower = wetter.
-# Pump triggers when value > threshold.
-MOISTURE_DRY_THRESHOLD = 57000
+MOISTURE_DRY_THRESHOLD = 50000
 
-# Main loop period.
-READ_INTERVAL_SECONDS = 4 * 60 * 60  # 4 hours
+# How long to sample sensors each wake cycle (seconds).
+SAMPLE_DURATION_S = 60
+
+# How often to take a sample during the sampling window (ms).
+SAMPLE_INTERVAL_MS = 500
+
+# How long to sleep between cycles (seconds). Overridden by Firebase sensor_interval.
+SENSOR_INTERVAL = 14400  # 4 hours
